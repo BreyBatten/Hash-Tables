@@ -59,7 +59,14 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        idx = self._hash_mod(key)
+        linked_idx = LinkedPair(key, value)
+        
+        if self.storage[idx] != None:
+            linked_idx.next = self.storage[idx]
+            self.storage[idx] = linked_idx
+        else:
+            self.storage[idx] = linked_idx
 
 
     def remove(self, key):
@@ -81,7 +88,16 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        idx = self._hash_mod(key)
+        curr_value = self.storage[idx]
+
+        while curr_value != None:
+            if curr_value.key == key:
+                return curr_value.value
+            else:
+                curr_value = curr_value.next
+
+        return None
 
 
     def resize(self):
