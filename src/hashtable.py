@@ -15,7 +15,6 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
-        self.count = 0
 
 
     def _hash(self, key):
@@ -109,12 +108,13 @@ class HashTable:
         '''
         self.capacity *= 2
         new_arr = [None] * self.capacity
+        storage = self.storage[:]
 
-        for i in range(self.count):
-            new_arr[i] = self.storage[i]
-
-        self.storage = new_arr
-
+        for i in range(len(storage)):
+            curr_value = storage[i]
+            while curr_value != None:
+                self.insert(curr_value.key, curr_value.value)
+                curr_value = curr_value.next
 
 
 if __name__ == "__main__":
