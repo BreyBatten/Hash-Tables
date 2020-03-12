@@ -15,6 +15,7 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
+        self.count = 0
 
 
     def _hash(self, key):
@@ -32,7 +33,11 @@ class HashTable:
 
         OPTIONAL STRETCH: Research and implement DJB2
         '''
-        pass
+        hash_value = 5381
+        for i in key:
+            hash_value =  hash_value + (hash_value << 5) + i
+
+        return hash_value
 
 
     def _hash_mod(self, key):
@@ -55,7 +60,6 @@ class HashTable:
         Fill this in.
         '''
         pass
-
 
 
     def remove(self, key):
@@ -87,7 +91,13 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        self.capacity *= 2
+        new_arr = [None] * self.capacity
+
+        for i in range(self.count):
+            new_arr[i] = self.storage[i]
+
+        self.storage = new_arr
 
 
 
