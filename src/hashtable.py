@@ -76,7 +76,12 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        idx = self._hash_mod(key)
+
+        if self.storage[idx] is None:
+            print('Warning! No key!')
+            
+        self.storage[idx] = None
 
 
     def retrieve(self, key):
@@ -107,8 +112,8 @@ class HashTable:
         Fill this in.
         '''
         self.capacity *= 2
-        new_arr = [None] * self.capacity
         storage = self.storage[:]
+        self.storage = [None] * self.capacity
 
         for i in range(len(storage)):
             curr_value = storage[i]
