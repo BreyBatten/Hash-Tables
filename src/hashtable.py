@@ -32,7 +32,11 @@ class HashTable:
 
         OPTIONAL STRETCH: Research and implement DJB2
         '''
-        pass
+        hash_value = 5381
+        for i in key:
+            hash_value =  hash_value + (hash_value << 5) + i
+
+        return hash_value
 
 
     def _hash_mod(self, key):
@@ -54,8 +58,14 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
-
+        idx = self._hash_mod(key)
+        linked_idx = LinkedPair(key, value)
+        
+        if self.storage[idx] != None:
+            linked_idx.next = self.storage[idx]
+            self.storage[idx] = linked_idx
+        else:
+            self.storage[idx] = linked_idx
 
 
     def remove(self, key):
@@ -66,7 +76,12 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        idx = self._hash_mod(key)
+
+        if self.storage[idx] is None:
+            print('Warning! No key!')
+            
+        self.storage[idx] = None
 
 
     def retrieve(self, key):
@@ -77,7 +92,16 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        idx = self._hash_mod(key)
+        curr_value = self.storage[idx]
+
+        while curr_value != None:
+            if curr_value.key == key:
+                return curr_value.value
+            else:
+                curr_value = curr_value.next
+
+        return None
 
 
     def resize(self):
@@ -87,8 +111,15 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        self.capacity *= 2
+        storage = self.storage[:]
+        self.storage = [None] * self.capacity
 
+        for i in range(len(storage)):
+            curr_value = storage[i]
+            while curr_value != None:
+                self.insert(curr_value.key, curr_value.value)
+                curr_value = curr_value.next
 
 
 if __name__ == "__main__":
